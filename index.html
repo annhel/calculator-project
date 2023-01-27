@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .red {background-color: #d81515; } /* red buttons by class */
+        .blue {background-color: #5384df; } /* blue buttons by class */
+        .th{background-color: #2b5cb6;}
+        html { 
+            background: url(https://media.istockphoto.com/id/1304553274/photo/business-background-with-laptop-and-accessories-office-desktop-top-view.jpg?s=612x612&w=0&k=20&c=smyWkkC_Aq4Q1a9eqnVdGdumr_vUHmPOhu1ClsAwWys=) no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            image-rendering: pixelated;
+            image-rendering: -webkit-optimize-contrast;
+        }   
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="operations">
+            <table id="calculator"; style="height: 210%; background-color: #2b5fc0;";>
+                <tr><th colspan="4"><input type="text" id="comp"></th></tr>
+                <tr><th><input type="button" onclick="disNum('7')" value="7" id="7" class="blue"></th><th><input type="button"onclick="disNum('8')" value="8" id="8" class="blue"></th><th><input type="button" onclick="disNum('9')" value="9" id="9" class="blue"></th><th><input type="button"; onclick="disNum('/')" value="/" id="/" class="red"></th></tr>
+                <tr><th><input type="button" onclick="disNum('4')" value="4" id ="4" class="blue"></th><th><input type="button" onclick="disNum('5')" value="5" id="5" class="blue"></th><th><input type="button" onclick="disNum('6')" value="6" id="6" class="blue"></th><th><input type="button" onclick="disNum('*')" value="*" id="*" class="red"></th></tr>
+                <tr><th><input type="button" onclick="disNum('1')" value="1" id = "1" class="blue"></th><th><input type="button" onclick="disNum('2')" value="2" id="2" class="blue"></th><th><input type="button" onclick="disNum('3')" value="3" id="3" class="blue"></th><th><input type="button" onclick="disNum('-')" value="-" id="-" class="red"></th></tr>
+                <tr><th><input type="button" onclick="disNum('0')" value="0" id = "0" class="blue"></th><th><input type="button" onclick="disNum('.')" value="." id="." class="blue"></th><th><input type="button" onclick="returnResult(event);" value="=" class="red"></th><th><input type="button" onclick="disNum('+')" value="+" id="+" class="red"></th></tr>
+            </table>
+        </div>
+        <div class="pastCalcs">
+            <h3 style="text-align: center; background-color: #5384df; color: #e7d805;">Previous Calculations...</h3>
+            <ul id="history" style="text-align: center; background-color: #98b4e9;">
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // define state variables
+    let result;
+    let calculationHistory = []; // turn into string array
+
+    //function to update display each time a key is pressed
+    function disNum(val){
+        document.getElementById("comp").value += val;
+    }
+
+    function returnResult(e = new Event()){
+        // solve and place into the calc view
+        let totalPending = document.getElementById("comp").value;
+        let total = eval(totalPending);
+        document.getElementById("comp").value = total;
+
+        result = {totalPending: totalPending, total: total};
+        calculationHistory.push(result);
+        renderHistory();
+    }
+
+    function renderHistory(){
+        const history = document.getElementById("history");
+
+        history.innerHTML = "";
+
+        for(const calc of calculationHistory){
+            const li = document.createElement("li");
+            li.innerText = calc.totalPending + " = " + calc.total;
+
+            history.appendChild(li);
+        }
+    }
+</script>
+</html>
